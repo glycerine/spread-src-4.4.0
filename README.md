@@ -1,4 +1,4 @@
-Considering Paxos or Raft, but worried they will be too slow? Why you should learn about virtual synchrony instead.
+Building a CP system and considering Paxos or Raft, but worried they will be too slow? Why you should learn about virtual synchrony
 -----------------
 
 "[Users have] included the New York and Swiss Stock Exchange, the French Air Traffic Control System, the US Navy AEGIS, dozens of telecommunications provisioning systems, the control system of some of the world’s largest electric and gas grid managers, and all sorts of financial applications."
@@ -8,13 +8,14 @@ Considering Paxos or Raft, but worried they will be too slow? Why you should lea
 "To give some sense of the relative speed, experiments with 4-node replicated variables undertaken on the Isis and Horus systems in the 1980s suggested that virtual synchrony implementations in typical networks were about 100 times faster than state-machine replication using Paxos, and about 1000 to 10,000 times faster than full-fledged transactional one-copy-serializability." -- https://en.wikipedia.org/wiki/Virtual_synchrony
 
 
-The following paragraphs are from Ken Birman's "A History of the Virtual Synchrony Replication Model". https://www.cs.cornell.edu/ken/history.pdf The emphasis and section headlines are mine.
+The following paragraphs are quoted (not sequentially) from [Ken Birman's "A History of the Virtual Synchrony Replication Model"](https://www.cs.cornell.edu/ken/history.pdf) The emphasis and section headlines are mine - JEA.
 
-## why this radically faster protocol is a little known underdog
+## a historical accident: why this faster protocol from the 1980s is little known
 
 "With the benefit of hindsight, one can look back and see that the convergence of the field around uncoordinated end‐system based failure detection enshrined a form of inconsistency into the core layers of almost all systems of that period. This, in turn, drove developers towards quorum‐based protocols, which don't depend on accurate failure detection – they obtain fault-tolerance guarantees by reading and writing to quorums of processes, which are large enough to overlap. Yet as we just saw, such protocols also require a two phase structure, because participants contacted in the first phase don’t know yet whether a write quorum will actually be achieved. Thus, one can trace a line of thought that started with the end‐to‐end philosophy, became standardized in TCP and RPC protocols, and ultimately compelled most systems to adopt quorum‐based replication. **Unfortunately, quorum‐based replication is very slow when compared with unreliable UDP multicast**, and this gave fault-tolerance a bad reputation. The **Isis protocols, as we’ve already mentioned, turned out to do well in that same comparison.**
 
-## why virtual synchrony is faster: combined with locking, reads to your replicas can become radically faster (as they will take only one network roundtrip).
+## Why virtual synchrony is faster: eager failure detection, combined with locking, means that reads to your replicas can become radically faster (by needing only one roundtrip to remain correct). In contrast, Paxos and Raft do lazy failure detection, which requires additional network hops--and waiting for possibly failed machines--to verify that the leader's state is not stale.
+
 
 "The key insight here is that **within a virtual synchrony system, the group view represents a virtual world that can be "trusted"**. In the event of a partitioning of the group, processes cut off from the majority might succeed in initiating updates (for example if they were holding a lock at the time the network failed), but would be unable to commit them – the 2‐phase protocol would need to access group members that aren’t accessible, triggering a view change protocol that would fail to gain majority consent. Thus **any successful read will reflect all prior updates**: committed ones by transactions serialized prior to the one doing the read, plus pending updates by the reader’s own transaction. From this we can prove that our protocol achieves one‐copy serializability when running in the virtual synchrony model. And, as noted, **it will be dramatically faster than a quorum algorithm achieving the identical property.**
 
