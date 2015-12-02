@@ -47,6 +47,7 @@ Adjusting UDP buffers. From https://influxdb.com/docs/v0.9/write_protocols/udp.h
 > Check the current UDP/IP read buffer limit by typing the following commands:
 >
 > `sysctl net.core.rmem_max`
+> 
 > If the value is less than 8388608 bytes you should add the following lines to the /etc/sysctl.conf file:
 >
 > `net.core.rmem_max=8388608`
