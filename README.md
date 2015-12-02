@@ -56,6 +56,9 @@ Adjusting UDP buffers. From https://influxdb.com/docs/v0.9/write_protocols/udp.h
 >
 > `sysctl -w net.core.rmem_max=8388608`
 
+## benchmarks
+
+http://www.cnds.jhu.edu/pub/papers/cnds-2014-2.pdf [local cache](https://github.com/glycerine/spread-src-4.4.0/blob/master/docs/cnds-2014-2.pdf)
 
 
 ### distribution docs! From the spread-src-4.4.0.tar distribution's Readme.txt:
