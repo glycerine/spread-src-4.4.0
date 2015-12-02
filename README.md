@@ -6,7 +6,7 @@ Considering Paxos or Raft, but worried they will be too slow? Why you should lea
 
 "To give some sense of the relative speed, experiments with 4-node replicated variables undertaken on the Isis and Horus systems in the 1980s suggested that virtual synchrony implementations in typical networks were about 100 times faster than state-machine replication using Paxos, and about 1000 to 10,000 times faster than full-fledged transactional one-copy-serializability." -- https://en.wikipedia.org/wiki/Virtual_synchrony
 
-Selected quotes from Ken Birman, "A History of the Virtual Synchrony Replication Model". https://www.cs.cornell.edu/ken/history.pdf :
+The following paragraphs are from Ken Birman's "A History of the Virtual Synchrony Replication Model". https://www.cs.cornell.edu/ken/history.pdf, emphasis and sections mine.
 
 ## why this radically faster protocol is a little known underdog
 
