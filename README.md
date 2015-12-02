@@ -1,17 +1,17 @@
 Building a CP system and considering Paxos or Raft, but worried they will be too slow? Why you should learn about virtual synchrony
 -----------------
 
-## a historical accident: why this faster protocol from the 1980s is little known
+### a historical accident: why this faster protocol from the 1980s is little known
 
 "With the benefit of hindsight, one can look back and see that the convergence of the field around uncoordinated end‐system based failure detection enshrined a form of inconsistency into the core layers of almost all systems of that period. This, in turn, drove developers towards quorum‐based protocols, **_which don't depend on accurate failure detection_** – they obtain fault-tolerance guarantees by reading and writing to quorums of processes, which are large enough to overlap. Yet as we just saw, such protocols also **require a two phase structure**, because participants contacted in the first phase don’t know yet whether a write quorum will actually be achieved. Thus, one can trace a line of thought that started with the end‐to‐end philosophy, became standardized in TCP and RPC protocols, and ultimately compelled most systems to adopt quorum‐based replication. **Unfortunately, quorum‐based replication is very slow when compared with unreliable UDP multicast**, and this gave fault-tolerance a bad reputation. The **Isis protocols, as we’ve already mentioned, turned out to do well in that same comparison.**
 
-## start with weak but **fast** communication, and make it strong with early failure detection
+### start with **fast** but weak guarantees, and make strong guarantees usings a protocol that detects failures as early as possible
 
 ![illustrating sychrony](https://github.com/glycerine/spread-src-4.4.0/blob/master/docs/VirtualSynchronyFig3.jpg)
 
 "To give some sense of the relative speed, experiments with 4-node replicated variables undertaken on the Isis and Horus systems in the 1980s suggested that **virtual synchrony implementations in typical networks were about 100 times faster than state-machine replication using Paxos**, and about 1000 to 10,000 times faster than full-fledged transactional one-copy-serializability." -- https://en.wikipedia.org/wiki/Virtual_synchrony
 
-## demanding real-time systems have quietly exploited virtual synchrony for years
+## demanding real-time systems have quietly exploited virtual synchrony
 
 "[Users have] included the New York and Swiss Stock Exchange, the French Air Traffic Control System, the US Navy AEGIS, dozens of telecommunications provisioning systems, the control system of some of the world’s largest electric and gas grid managers, and all sorts of financial applications."
   -- Ken Birman, distributed systems professor, Cornell Computer Science Department
