@@ -11,7 +11,7 @@ Building a CP system and considering Paxos or Raft, but worried they will be too
 
 "To give some sense of the relative speed, experiments with 4-node replicated variables undertaken on the Isis and Horus systems in the 1980s suggested that **virtual synchrony implementations in typical networks were about 100 times faster than state-machine replication using Paxos**, and about 1000 to 10,000 times faster than full-fledged transactional one-copy-serializability." -- https://en.wikipedia.org/wiki/Virtual_synchrony
 
-## demanding real-time systems have quietly exploited virtual synchrony
+## Demanding real-time systems have quietly exploited virtual synchrony for many years.
 
 "[Users have] included the New York and Swiss Stock Exchange, the French Air Traffic Control System, the US Navy AEGIS, dozens of telecommunications provisioning systems, the control system of some of the world’s largest electric and gas grid managers, and all sorts of financial applications."
   -- Ken Birman, distributed systems professor, Cornell Computer Science Department
