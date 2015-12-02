@@ -2,10 +2,12 @@ Building a CP system and considering Paxos or Raft, but worried they will be too
 -----------------
 
 "[Users have] included the New York and Swiss Stock Exchange, the French Air Traffic Control System, the US Navy AEGIS, dozens of telecommunications provisioning systems, the control system of some of the world’s largest electric and gas grid managers, and all sorts of financial applications."
-  -- Ken Birman, distributed systems professor, Cornell Computer Science Dept.
+  -- Ken Birman, distributed systems professor, Cornell Computer Science Department
 
+![illustrating sychrony](https://github.com/glycerine/spread-src-4.4.0/blob/master/docs/VirtualSynchronyFig1.jpg)
+![illustrating sychrony](https://github.com/glycerine/spread-src-4.4.0/blob/master/docs/VirtualSynchronyFig2.jpg)
 
-"To give some sense of the relative speed, experiments with 4-node replicated variables undertaken on the Isis and Horus systems in the 1980s suggested that virtual synchrony implementations in typical networks were about **100 times faster than state-machine replication using Paxos**, and about 1000 to 10,000 times faster than full-fledged transactional one-copy-serializability." -- https://en.wikipedia.org/wiki/Virtual_synchrony
+"To give some sense of the relative speed, experiments with 4-node replicated variables undertaken on the Isis and Horus systems in the 1980s suggested that **virtual synchrony implementations in typical networks were about 100 times faster than state-machine replication using Paxos**, and about 1000 to 10,000 times faster than full-fledged transactional one-copy-serializability." -- https://en.wikipedia.org/wiki/Virtual_synchrony
 
 
 The following paragraphs are quoted (not sequentially) from [Ken Birman's "A History of the Virtual Synchrony Replication Model"](https://www.cs.cornell.edu/ken/history.pdf) The emphasis and section headlines are mine - JEA.
@@ -18,6 +20,8 @@ The following paragraphs are quoted (not sequentially) from [Ken Birman's "A His
 
 
 "The key insight here is that **within a virtual synchrony system, the group view represents a virtual world that can be "trusted"**. In the event of a partitioning of the group, processes cut off from the majority might succeed in initiating updates (for example if they were holding a lock at the time the network failed), but would be unable to commit them – the 2‐phase protocol would need to access group members that aren’t accessible, triggering a view change protocol that would fail to gain majority consent. Thus **any successful read will reflect all prior updates**: committed ones by transactions serialized prior to the one doing the read, plus pending updates by the reader’s own transaction. From this we can prove that our protocol achieves one‐copy serializability when running in the virtual synchrony model. And, as noted, **it will be dramatically faster than a quorum algorithm achieving the identical property.**
+
+![illustrating sychrony](https://github.com/glycerine/spread-src-4.4.0/blob/master/docs/VirtualSynchronyFig3.jpg)
 
 "This may seem like an unfair comparison: databases use quorums to achieve serializability. But in fact **Isis groups, _combined with locking_, also achieve serializability. Because the group membership has become a part of the model, virtually synchronous locking and data access protocols guarantee that any update would be applied to all replicas and that any read‐locked replica reflects all prior updates.** In contrast, because quorum‐based database systems lack an agreed‐upon notion of membership, to get the same guarantees in the presence of faults, a read must access two or more copies: a read quorum. Doing so is the only way to be sure that any read will witness all prior updates.
 
