@@ -35,7 +35,29 @@ From the humble http://www.spread.org/:
 > The Spread toolkit provides a high performance messaging service that is resilient to faults across local and wide area networks.
 Spread functions as a unified message bus for distributed applications, and provides highly tuned application-level multicast, group communication, and point to point support. Spread services range from reliable messaging to fully ordered messages with virtual synchrony delivery guarantees.
 
-## From the spread-src-4.4.0.tar distribution's Readme.txt:
+### getting started notes
+
+Adjusting UDP buffers. From https://influxdb.com/docs/v0.9/write_protocols/udp.html :
+
+> A note on UDP/IP OS Buffer sizes
+>
+> Some OSes (most notably, Linux) place very restricive limits on the performance of UDP protocols. Recent versions of FreeBSD, OSX, and Windows do not have this problem. It is highly recommended that you increase these OS limits to 8MB before trying to run large amounts of UDP traffic to your instance. 8MB is just a recommendation, and should be adjusted to be inline with your read-buffer plugin setting.
+>
+> Linux
+> Check the current UDP/IP read buffer limit by typing the following commands:
+>
+> `sysctl net.core.rmem_max`
+> If the value is less than 8388608 bytes you should add the following lines to the /etc/sysctl.conf file:
+>
+> `net.core.rmem_max=8388608`
+>
+> Changes to /etc/sysctl.conf do not take effect until reboot. To update the values immediately, type the following commands as root:
+>
+> `sysctl -w net.core.rmem_max=8388608`
+
+
+
+### distribution docs! From the spread-src-4.4.0.tar distribution's Readme.txt:
 
 ~~~
 SPREAD: A Reliable Multicast and Group Communication Toolkit
