@@ -1,0 +1,56 @@
+This file contains any messages produced by compilers while
+running configure, to aid debugging if configure makes a mistake.
+
+configure:532: checking for gcc
+configure:645: checking whether the C compiler (/opt/gcc/bin/gcc  ) works
+configure:661: /opt/gcc/bin/gcc -o conftest    conftest.c  1>&5
+configure:687: checking whether the C compiler (/opt/gcc/bin/gcc  ) is a cross-compiler
+configure:692: checking whether we are using GNU C
+configure:720: checking whether /opt/gcc/bin/gcc accepts -g
+configure:752: checking whether make sets ${MAKE}
+configure:780: checking for main in -leaks
+configure:823: checking for main in -lpthread
+configure:867: checking how to run the C preprocessor
+configure:947: checking for ANSI C header files
+configure:1054: checking for fcntl.h
+configure:1054: checking for limits.h
+configure:1054: checking for sys/time.h
+configure:1054: checking for unistd.h
+configure:1054: checking for stdint.h
+configure:1054: checking for poll.h
+configure:1054: checking for sys/int_types.h
+configure:1054: checking for inttypes.h
+configure:1104: checking for off_t
+configure:1137: checking for pid_t
+configure:1170: checking whether byte ordering is bigendian
+configure:1260: checking for working const
+configure:1335: checking for inline
+configure:1375: checking for size_t
+configure:1408: checking whether time.h and sys/time.h may both be included
+configure:1443: checking size of char
+configure:1482: checking size of short
+configure:1521: checking size of int
+configure:1560: checking size of long
+configure:1599: checking size of long long
+configure:1639: checking for 8-bit clean memcmp
+configure:1678: checking for unistd.h
+configure:1717: checking for getpagesize
+configure:1770: checking for working mmap
+configure:1941: checking return type of signal handlers
+configure:1982: checking for vprintf
+configure:2089: checking for gethostname
+configure:2089: checking for gettimeofday
+configure:2089: checking for select
+configure:2089: checking for socket
+configure:2089: checking for strstr
+configure:2089: checking for poll
+configure:2089: checking for ftruncate
+configure:2089: checking for fsyncdata
+configure:2089: checking for vsnprintf
+configure:2089: checking for vsprintf
+configure:2089: checking for writev
+configure:2089: checking for readv
+configure:2144: checking for pread64
+configure:2144: checking for pwrite64
+configure:2144: checking for lseek64
+configure:2144: checking for llseek

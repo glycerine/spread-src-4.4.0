@@ -1,0 +1,33 @@
+CEnsemble Perl Interface README
+Authors: Mark Hayden, Chet Murthy, 11/00
+Copyright 2000 Mark Hayden.  All rights reserved.
+See license.txt for further information.
+
+
+This directory contains an interface to use CEnsemble in Perl
+programs.  This is an initial release of the interface and it is
+still very much alpha-quality.  There are known memory leaks and
+missing pieces in the interface.  As with all of CEnsemble, we would
+be happy to integrate extensions that others add.
+
+* This Perl module makes use of optional 64-bit integer support in
+  Perl.  On 32-bit architectures, this support is not enabled by
+  default.  So, you will need to build Perl with this option enabled
+  Build Perl-5.6, with '-Duse64bitints'.  Download a source
+  distribution of Perl (eg., from www.perl.com).
+
+    % <unpack perl-5.6.0.tgz>
+    % cd perl-5.6.0
+    % ./Configure -d -Dprefix=/home/$USER/Perl-5.6 -Doptimize=-g -Duse64bitints
+    % make
+    % make install
+
+* Build CEnsemble perl module
+
+    % cd censemble/perl/Ensemble
+    % /home/$USER/Perl-5.6/bin/perl Makefile.PL
+    % make
+
+* Run sample test (a perl-ized verision of demo/rand.c test)
+
+    % /home/hayden/Perl-5.6/bin/perl test.pl

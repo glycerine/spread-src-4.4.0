@@ -1,0 +1,61 @@
+Package name:     censemble
+Version number:   0.10
+Original author:  Mark Hayden <mark@northforknet.com>
+Original URL:     http://www.censemble.com/
+HP-UX URL:        http://hpux.connect.org.uk/hppd/cgi-bin/search?package=&term=censemble-
+Install tree:     /opt/censemble
+Report bugs to:   stephie@connect.org.uk
+Tested on:        HP 9000/780/C160 running HP-UX 11.00
+C compiler used:  Version A.11.01.21505.GP
+Purpose:
+A toolkit for building distributed applications. Its is a rewrite of the
+Ensemble system which was written in ML. You need multicast. It features a
+complete distributed lock manager which can be used through a pipe or linked to
+your application. It also includes Paxos protocols.
+Date archived:    Tue  7 May 2002
+
+-------------------------------------------------------------------------------
+
+System:
+======
+	HP-UX shin B.10.20 A 9000/780
+
+URL:
+====
+
+
+HP Porting Changes:
+===================
+
+  Makefile.in - Added install and clean Rules (original clean
+                is now called as  "make veryclean")
+                
+                Using vanilla Make all the target object files
+                end up in the top level dir so I had to change
+                the Makefile locations to reflect that.
+
+  
+  infr/sys.c  - No "h_errno" on HPUX 10.20.  I used "errno".
+
+
+Building:
+=========
+
+
+  Run "make" in the top level dir.
+
+  Use "make -n install" to check the defaults, then "make install"
+
+
+Installed:
+==========
+ By
+ --     [steff@csc.liv.ac.uk]
+ On
+ --	[ Apr 24 2002 ]
+ 
+ 
+       HPUX Porting and Archive Centre, Connect, Liverpool University.
+  __/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/__/
+
+                       May everyone be Happy

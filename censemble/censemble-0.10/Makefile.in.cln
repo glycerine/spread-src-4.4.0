@@ -1,0 +1,273 @@
+#*************************************************************
+# Makefile */
+# Author: Mark Hayden, 11/99 */
+# Copyright 1999, 2000 Mark Hayden.  All rights reserved. */
+# See license.txt for further information. */
+#*************************************************************
+
+.SUFFIXES: .o .c .so
+
+#CC = cc -std -inline manual -I/usr/include
+#CC = checker gcc -DPURIFY
+CC = @CC@
+
+# A bunch of warnings to enable (MH: I define these through an
+# environment variable so that others do not get all the warnings).
+WARNINGS = $(CENSEMBLE_ADDL_WARNINGS)
+#WARNINGS = -Wall -Wwrite-strings -Wstrict-prototypes -Werror # -Wsign-compare -Wconversion -fno-builtin
+
+# Define NDEBUG to disable assertions
+ASSERT =# -DNDEBUG -DMINIMIZE_CODE
+
+DEBUGGING = # -fcheck-memory-usage -fprefix-function-name
+
+# Add -p to include profiling info
+PROFILE =# -p
+
+# Definitions provided by autoconf
+CFLAGS_BASIC = @CFLAGS@
+#CFLAGS_BASIC = -g
+
+CFLAGS = $(CFLAGS_BASIC) $(OPTIMIZE) $(WARNINGS) $(DEBUGGING) $(PROFILE) $(ASSERT) -I.
+
+MCHECK_CFLAGS = $(OPTIMIZE) $(WARNINGS) -g $(PROFILE) $(ASSERT) $(THREADS)
+
+# Different linking options
+
+# Normal, nothing extra
+LINKLIBS =
+
+# Different versions using the Hans-boehm gc library
+#LINKLIBS = -lgc_leak # -lpthread
+#LINKLIBS = -lgc -lpthread
+
+# With the Electric Fence library
+#LINKLIBS = -lefence
+
+# With one of my memory checkers
+#LINKLIBS = memdebug/leak.o
+#LINKLIBS = memdebug/mcheck.o
+#LINKLIBS = memdebug/freedbg.o
+
+# For Alpha-Dunix
+#LINKLIBS = -L./mcheck -rdynamic -ldl -lmem -lbfd -liberty
+
+UNUSED_INFR_OBJS = \
+	infr/tcp.o \
+
+# Infrastructure modules
+INFR_OBJS = \
+	infr/addr.o \
+	infr/alarm.o \
+	infr/appl.o \
+	infr/appl_intf.o \
+	infr/array.o \
+	infr/conn.o \
+	infr/domain.o \
+	infr/endpt.o \
+	infr/etime.o \
+	infr/event.o \
+	infr/group.o \
+	infr/iovec.o \
+	infr/iq.o \
+	infr/layer.o \
+	infr/marsh.o \
+	infr/md5.o \
+	infr/priq.o \
+	infr/proto.o \
+	infr/equeue.o \
+	infr/refbuf.o \
+	infr/sched.o \
+	infr/stack.o \
+	infr/stacktrace.o \
+	infr/sys.o \
+	infr/trace.o \
+	infr/transport.o \
+	infr/unique.o \
+	infr/util.o \
+	infr/version.o \
+	infr/view.o \
+	infr/wrapper.o
+
+# Transport related modules
+TRANS_OBJS = \
+	trans/netsim.o \
+	trans/real.o \
+	trans/udp.o
+
+# Layer modules only needed for debugging
+DEBUG_LAYER_OBJS = \
+	layers/chk_fifo.o \
+	layers/chk_sync.o \
+	layers/chk_trans.o \
+	layers/display.o \
+	layers/drop.o
+
+# Layer modules
+LAYER_OBJS = \
+	$(DEBUG_LAYER_OBJS) \
+	layers/bottom.o \
+	layers/intra.o \
+	layers/elect.o \
+	layers/heal.o \
+	layers/inter.o \
+	layers/leave.o \
+	layers/local.o \
+	layers/mnak.o \
+	layers/present.o \
+	layers/primary.o \
+	layers/pt2pt.o \
+	layers/pt2ptw.o \
+	layers/stable.o \
+	layers/suspect.o \
+	layers/sync.o \
+	layers/top.o \
+	layers/top_appl.o \
+	layers/xfer.o \
+	layers/vsync.o
+
+#LAYER_SHOBS = $(LAYER_OBJS:.o=.so)
+
+# Layers that will be linked staticly
+STATIC_LAYER_OBJS = $(LAYER_OBJS)
+
+# Root of the Ensemble distribution
+ENS_ROOT = @ensemble_src@
+HOTDIR = $(ENS_ROOT)/def/obj/i386-linux
+HOT_INC = $(ENS_ROOT)/hot/include
+HOTOBJS = \
+	hot/hot_intf.o \
+	$(HOTDIR)/hot_msg.o \
+	$(HOTDIR)/hot_sys.o \
+	$(HOTDIR)/hot_error.o \
+	$(HOTDIR)/pthread_intf.o \
+	$(HOTDIR)/hot_mem.o
+
+# Comment this out if you don't want to build/link the HOT library
+BUILD_HOT =# demo/hot_test
+
+# (MH: CENSEMBLE_BUILD_ADDITIONAL is something I define to build some optional
+# things.)
+
+all-no-additional: \
+	demo/rand \
+	demo/fifo \
+	demo/gossip \
+	$(BUILD_HOT) \
+	$(LAYER_SHOBS)
+
+all: $(CENSEMBLE_BUILD_ADDTIONAL) all-no-additional
+
+#all: lib/kens.o
+
+demo/fifo: demo/fifo.o lib/libens.a
+	rm -f demo/fifo
+	$(CC) $(CFLAGS_BASIC) $(PROFILE) -o demo/fifo demo/fifo.o lib/libens.a $(LINKLIBS)
+
+demo/rand: demo/rand.o lib/libens.a
+	rm -f demo/rand
+	$(CC) $(CFLAGS_BASIC) $(PROFILE) -o demo/rand demo/rand.o lib/libens.a $(LINKLIBS)
+
+demo/gossip: demo/gossip.o lib/libens.a
+	rm -f demo/gossip
+	$(CC) $(CFLAGS_BASIC) $(PROFILE) -o demo/gossip demo/gossip.o lib/libens.a $(LINKLIBS)
+
+demo/hot_test: lib/libhot.a $(HOTDIR)/hot_test.o
+	$(CC) $(CFLAGS_BASIC) $(PROFILE) -o demo/hot_test $(HOTDIR)/hot_test.o lib/libhot.a -lpthread $(LINKLIBS)
+
+OBJS = $(INFR_OBJS) $(TRANS_OBJS) $(STATIC_LAYER_OBJS) $(PAXOS_OBJS) $(DLM_OBJS) $(DBD_OBJS)
+
+lib/libens.a: $(OBJS)
+	ar cr lib/libens.a $(OBJS)
+	ranlib lib/libens.a
+
+lib/libhot.a: lib/libens.a hot/hot_intf.o
+	$(RM) lib/libhot.a
+	cp lib/libens.a lib/libhot.a
+	ar r lib/libhot.a hot/hot_intf.o $(HOTOBJS)
+	ranlib lib/libhot.a
+
+lib/libens.o: $(OBJS)
+	ld -r -o lib/libens.o $(OBJS)
+
+lib/kens.o: lib/libens.o infr/linux.o infr/af_ensemble.o demo/rand.o
+	ld -r -o lib/kens.o lib/libens.o infr/linux.o infr/af_ensemble.o demo/rand.o
+#	insmod -p lib/kens.o
+
+infr/use_gc.o: infr/use_gc.c
+	$(CC) -c $< -o $@
+
+memdebug/mcheck.o: memdebug/mcheck.c
+	$(CC) $(MCHECK_CFLAGS) -c $< -o $@
+
+hot/hot_intf.o: hot/hot_intf.c
+	$(CC) -I $(HOT_INC) $(CFLAGS) -c $< -o $@
+
+.o.so:
+	gcc -shared -o $@ $<
+
+wc:
+	wc -l infr/*.c
+	wc -l trans/*.c
+	wc -l layers/*.c
+	strip */*.o
+	wc -c infr/*.o trans/*.o layers/*.o
+
+clean:
+	$(RM) *.[ao]
+	$(RM) infr/*.o
+	$(RM) layers/*.o
+	$(RM) layers/*.so
+	$(RM) trans/*.o
+	$(RM) memdebug/*.o
+	$(RM) demo/*.o
+	$(RM) hot/*.o
+	$(RM) linux/*.o
+	$(RM) gmon.out gmon.txt
+	$(RM) censemble.tgz
+	$(RM) TAGS ID
+	$(RM) lib/*.[oa]
+	$(RM) demo/rand demo/fifo demo/hot_test demo/gossip
+	$(RM) demo/*.third
+	$(RM) demo/*.3log
+	$(RM) demo/core
+	( cd perl/Ensemble ; /home/$(USER)/Perl-5.6/bin/perl Makefile.PL )
+	$(MAKE) -C perl/Ensemble clean
+	$(RM) perl/Ensemble/Makefile.old
+	$(RM) .size.o .infr.o
+	$(RM) `find -name ".nfs*"`
+	$(RM) lib/st*
+
+size: $(OBJS)
+	ld -r -o .size.o $(OBJS)
+	strip .size.o
+	wc -c .size.o
+	ld -r -o .infr.o $(INFR_OBJS)
+	strip .infr.o
+	wc -c .infr.o
+
+autoconf:
+	$(RM) ./configure
+	autoconf
+	./configure
+#	chmod a-w ./Makefile
+#	chmod a-w ./configure
+
+DEPCC=cc
+
+depend:
+	$(RM) .depend.tmp
+	$(DEPCC) -MM -I. infr/*.c |\
+	  sed -e "s/\(.*\.o\)/infr\/\1/" >> .depend.tmp
+	$(DEPCC) -MM -I. layers/*.c |\
+	  sed -e "s/\(.*\.o\)/layers\/\1/" >> .depend.tmp
+	$(DEPCC) -MM -I. trans/*.c |\
+	  sed -e "s/\(.*\.o\)/trans\/\1/" >> .depend.tmp
+	$(DEPCC) -MM -I. demo/*.c |\
+	  sed -e "s/\(.*\.o\)/demo\/\1/" >> .depend.tmp
+	mv .depend.tmp .depend
+
+include .depend
+
+tags:
+	etags infr/*.[ch] layers/*.[ch] trans/*.[ch] demo/*.[ch]

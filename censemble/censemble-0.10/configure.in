@@ -1,0 +1,50 @@
+dnl Process this file with autoconf to produce a configure script.
+AC_INIT(infr/addr.c)
+AC_CONFIG_HEADER(infr/config.h:infr/config.h.in)
+
+dnl Checks for programs.
+AC_PROG_CC
+AC_PROG_MAKE_SET
+
+dnl Checks for libraries.
+dnl Replace `main' with a function in -leaks:
+AC_CHECK_LIB(eaks, main)
+dnl Replace `main' with a function in -lpthread:
+AC_CHECK_LIB(pthread, main)
+
+dnl Checks for header files.
+AC_HEADER_STDC
+AC_CHECK_HEADERS(fcntl.h limits.h sys/time.h unistd.h stdint.h poll.h sys/int_types.h inttypes.h)
+
+AC_ARG_WITH(ensemble_srcdir,
+  [--with-ensemble_srcdir=DIR   linux kernel source in DIR [../ensemble]], 
+  [ ensemble_src="$withval" ],
+  [ ensemble_src=../ensemble ])
+AC_MSG_RESULT([setting Ensemble source directory to $ensemble_src])
+
+AC_SUBST(ensemble_src)
+
+dnl Checks for typedefs, structures, and compiler characteristics.
+AC_TYPE_OFF_T
+AC_TYPE_PID_T
+AC_C_BIGENDIAN
+AC_C_CONST
+AC_C_INLINE
+AC_TYPE_SIZE_T
+AC_HEADER_TIME
+AC_CHECK_SIZEOF(char)
+AC_CHECK_SIZEOF(short)
+AC_CHECK_SIZEOF(int)
+AC_CHECK_SIZEOF(long)
+AC_CHECK_SIZEOF(long long)
+
+dnl Checks for library functions.
+AC_FUNC_MEMCMP
+AC_FUNC_MMAP
+AC_TYPE_SIGNAL
+AC_FUNC_VPRINTF
+AC_CHECK_FUNCS(gethostname gettimeofday select socket strstr poll ftruncate fsyncdata vsnprintf vsprintf writev readv)
+AC_CHECK_FUNCS(pread64 pwrite64 lseek64 llseek)
+
+AC_SUBST(CFLAGS)
+AC_OUTPUT(Makefile)

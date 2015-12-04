@@ -1,0 +1,46 @@
+C-Ensemble INSTALL
+AUTHOR: Mark Hayden
+Copyright 2000 Mark Hayden.  All rights reserved.
+See license.txt for further information.
+
+Building the C-Ensemble library
+
+  The library has been built and tests on a linux-i386 (Redhat 7.0)
+  platform.  It is compiled by doing the following in this directory:
+
+    ./configure
+    make depend
+    make
+
+  The resulting objects are the C-Ensemble library (lib/libens.a) and
+  several test programs (demo/rand, demo/fifo).
+
+  For examples of running a C-Ensemble based application program, see
+  the tutorial in dlm/README.
+
+
+Building the HOT library
+
+  The C-Ensemble HOT library is an alternative implementation of the
+  Ensemble HOT library using C-Ensemble.  This allows many
+  applications build using the Ensemble HOT library to migrate to
+  C-Ensemble.
+
+  [NOTE: There are bugs in the pthreads library that is distributed in
+  glibc with RedHat-6.1.  Be sure to use RedHat-6.2.]
+
+  Building the C-Ensemble HOT library requires access to some of the
+  Ensemble Hot modules:
+
+  * Install and build the Ensemble hot library with 'make hot'
+
+  * Set the ENS_ROOT in censemble/Makefile to be the path to the
+    Ensemble distribution directory.  This needs to be set so that
+    HOTDIR (defined relative to ENS_ROOT) points to the directory
+    with the compiled HOT object files.
+
+  * Run 'make demo/hot_test' in the censemble directory.
+
+  * This should build the hot_test program in the demo directory as
+    well as leave the library file libhot.a in the censemble/lib
+    directory.

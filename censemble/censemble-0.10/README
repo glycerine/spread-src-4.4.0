@@ -1,0 +1,39 @@
+C-Ensemble README
+AUTHOR: Mark Hayden
+
+C-Ensemble is a by-hand translation of the Ensemble communication
+toolkit from the ML programming language to C.  It includes a subset
+of the functionality provided by Ensemble.  This software should
+currently be considered to be beta-quality.  It has been heavily
+tested with the included test programs (which are pretty much the
+same programs used to test Ensemble).  However, the software has not
+yet been used in production systems nearly as much as Ensemble.
+
+For more information on Ensemble please visit the home pages at:
+
+  Homepage: http://www.cs.cornell.edu/Info/Projects/Ensemble/index.html
+  Download: ftp://cs.cornell.edu/pub/ensemble/
+
+The C-Ensemble library APIs are undocumented, but are very similar to
+that of Ensemble.  The architecture and protocols are exactly the
+same as those described in the Ensemble reference manual and my
+thesis.
+
+A companion software distribution is available from NorthFork
+Networks (www.northforknet.com) that includes a number of
+applications and toolkit libraries built using C-Ensemble.
+
+Included with the C-Ensemble library is support for the HOT C
+interface, which uses the same API as the Ensemble HOT library.  The
+HOT C interface should also be usable underneath the Ensemble Maestro
+C++ interface, although this has not been tested.
+
+The performance of this library should be approximately the same as
+that of the ML library.  The advantages over the ML implementation
+result from the implementation in C, which means that the library
+does not require the use of the ML runtime library (including garbage
+collector), and all of the C-Ensemble API's are directly accessible
+from C applications.
+
+NOTE: C-Ensemble requires that IP multicast be supported on your
+platform.  Please take a moment to read README.multicast.

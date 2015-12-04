@@ -1,0 +1,15 @@
+C-Ensemble README.multicast
+AUTHOR: Mark Hayden
+
+C-Ensemble requires that IP multicast be supported on your platform.
+On Linux, this means that you must have enabled the IP multicast
+option for your kernel.  Most Linux distributions enable this option
+by default.
+
+A common mistake that prevents multicast from working is for your
+/etc/hosts file to map your hostname to the loopback device
+("127.0.0.1").
+
+The C-Ensemble multicast support does not currently work correctly
+for hosts with multiple ethernet interface cards.  It will only
+transmit multicast packets on the first of the interfaces.

@@ -1,0 +1,8 @@
+Changes
+lib/Ensemble.pm
+lib/Ensemble/Sched.pm
+lib/Ensemble/Unique.pm
+Ensemble.xs
+MANIFEST
+Makefile.PL
+test.pl

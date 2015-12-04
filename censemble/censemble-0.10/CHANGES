@@ -1,0 +1,29 @@
+* 0.06
+
+  * This is a stable release
+
+  * Added DBD client kernel driver
+
+  * Change dbd_store to use flat disk files
+
+  * Bug fixes in DBD, Paxos, HOT
+
+* 0.05
+
+  * Added DBD
+
+  * Bug fixes in Paxos
+
+* 0.04
+
+  * This is a development release.
+
+  * Added Paxos service
+
+  * Fixed name conflicts with Solaris and older versions of Linux.
+
+  * Switched to using autoconf/configure scripts
+
+* 0.03 
+
+  * Added DLM

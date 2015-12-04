@@ -1,0 +1,31 @@
+################################################################
+# File: typemap
+# Authors: Mark Hayden, Chet Murthy, 11/00
+# Copyright 2000 Mark Hayden.  All rights reserved.
+# See license.txt for further information.
+################################################################
+
+sched_t			T_PTR
+unique_t		T_PTR
+alarm_t			T_PTR
+group_id_t *		T_PTR
+domain_t		T_PTR
+addr_id_t *		T_PTR
+proto_id_t		T_PTR
+layer_state_t		T_PTR
+endpt_id_t *		T_PTR
+view_state_t		T_PTR
+view_local_t		T_PTR
+equeue_t		T_PTR
+etime_t			T_ETIME
+ltime_t			T_IV
+
+#############################################################################
+INPUT
+T_ETIME
+	($var).usecs = INT2PTR(uint64_t,SvIV($arg))
+
+#############################################################################
+OUTPUT
+T_ETIME
+	sv_setiv($arg, (IV)($var).usecs);
